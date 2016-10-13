@@ -1,0 +1,213 @@
+﻿简单的罗列一个HTML5的新东西，以后的几天里详细的过一遍
+一个挺有用的网站：www.css88.com
+
+【H5的新标签】
+
+  用之前的标签完全可以代替的：header     footer     aside     atrical     nav     address     time     mark     section
+
+  新增的重要的标签：video     audio     caves（画图）
+
+  这些新标签的作用：语义化，使代码的可读性更强；便于提高搜索优化。
+
+ 再谈谈兼容性：兼容IE9+，IE8及其以下有些可以解决，但大部分的还是放弃。这里有两个词我觉得挺好，简单写两句。
+优雅降级：保证功能在高级浏览器上的使用，放弃低级浏览器。
+渐进增强：低级浏览器只保证基本功能的实现，高级浏览器确保的是更好的用户体验。
+
+一个有用的小东西，可以解决部分IE浏览器兼容性问题：HTML5shiv.js
+
+
+【js部分的新东西】
+1》获取元素                 
+       oDiv=document.querySelectorAll('css选择器');   ——》选择一组
+
+      oDiv=document.querySelector('css选择器');     ——》选择一个，如果选择一组的话只选择第一个
+ 
+      兼容性：只兼容IE8+（IE8只支持css2.0选择器）      
+
+2》js自定义属性
+
+     不标准
+      FF   chrome    不支持     浏览器认为自定义属性不规范，将其过滤掉了
+     
+     H5中自定义属性前面加    ：  data-自定义属性	浏览器承认这个为自定义属性
+
+     打印自定义属性   console.log(this.dataset);     ---->打印出来的是一个json，没有length
+              this,dataset.自定义属性=“值”    可以设置自定义属性的值
+
+     测试性能
+     程序之前      consolog.time('hello');
+     程序结束      consolog.timeEnd('hello');
+
+     this.dataset 的性能比getAttribute 高
+
+3》classList
+	用于在元素中添加、删除、切换css类；
+	classList属性是只读的，但可用add()/remove()方法修改他；
+	可多项添加和删除，在括号内添加多个css类名即可；
+	
+	兼容IE10+
+	
+	element.classList.add();	添加类名
+	Element.classList.remove();	删除类名
+	element.classList.contains();	返回布尔值  true表示元素包含该类名，false表示不包含
+
+【html5的新功能】
+1》地理定位（重要）     geolocation
+2》websql     前端数据库     鸡肋，没有隐私可言
+3》js中多线程和单线程+
+     
+          单线程：一次只能做一件事
+          多线程：同事可以做很多事
+
+          多线程的实现：webworker     鸡肋：只能进行一些计算
+4》websocket（重要）     
+          ajax：单项      请求服务器---然后服务器再给你返回数据     性能一般
+          websocket：双向的          性能高        直播
+5》本地存储（重要）：
+          cookie
+          localStorage        
+          查看    f12--applition    cookie上面
+
+          localStrorage和cookie的相同点：不能跨域，
+
+         		cookie				localStorage
+
+大小			4k				4M
+有效期		 session（会话结束：关闭浏览器）		不过期
+环境要求			走网络（传递方式）		不走网络（本地）
+兼容性			兼容IE6				不兼容IE6
+
+ 
+          简便写法：  localStorage.username='xiaoer';
+          标准写法     localStorage.setItem('username','xiaoer');
+                              alert(localStorage.getItem('username'));
+          
+          setItem
+          getItem
+          removeItem
+          clear
+
+          兼容性：
+              兼容IE7+
+
+6》表单
+          原来的表单元素    input  
+
+          input新的属性     placeholder         
+          required   不能为空，必须填  
+          autocomplete     输入内容提示，默认值为on（开启），off（关闭）
+          tel：电话类型
+          data日期
+          month   月
+          week     周
+          color     颜色          ——————》获取值用onchange      this.value
+          range     滑块（范围）
+          
+          <progress></progress >  进度条   
+                         value：
+                         min：
+                         max：
+           <meter></meter>
+                         value：
+                         min：
+                         max：
+          事件：
+               新表单，在手机端的优势：自动切换键盘
+               oncopy     在你复制的时候
+               oninput     
+
+7》canvas     画图标签
+          <canvas></canvas>
+               画出的图形是矢量图形：放大不失真
+
+               安布雷拉
+
+
+css3：新样式
+          css三角形
+          图形字符
+          icon-font     
+          
+          border-radius：
+
+          tianox.com     
+
+          动画效果：
+               transition:1s  all   ease/linear;
+                              时间    哪个属性      加速减速
+               兼容性：  
+                              浏览器前缀    
+                                     chrome   -webkit-               
+                                     FF           -moz-
+                                     IE            -ms-
+                                     opear      原来用自己的内核，现在用webkit内核      
+                                     标准内核    不写也行-webkit-transition:
+
+               js添加浏览器前缀：---->有的浏览器 上也是小写
+                              oDiv.style.transiton
+                              oDiv.style.WebkitTransition
+                              oDiv.style.MozTransition
+                              oDiv.style.msTransition
+
+
+          盒子阴影：   box-shadow:0px 0px 100px  #000;
+                   	 x方向位移  y方向位移     模糊程度     颜色
+
+	  线性渐变： background:-webkid-linear-gradient(渐变的角度/渐变开始的位置，颜色1 颜色1开始渐变的位置，颜色2 颜色2开始渐变的位置);
+		
+		当位置为 top left /right bottom 的时候-websit-必须写
+		从左上到右下为-45deg
+
+	 写一个四个颜色的跳变
+	 background:-webkit-linear-gradient(red 25%,green 25%,green 50%,yellow 50%,yellow 75%,deepskyblue 75%);
+		
+
+	 径向渐变：background:-webkit-radial-gradient(圆心的位置，形状（circle），颜色1 颜色1开始渐变的位置，颜色2 颜色2开始渐变的位置);
+
+	 圆心位置可以写center center/top left等等
+
+	 重复渐变：background:-webkit-repeating-linear/radial-gradient();
+	可以画飞镖盘了
+	
+	蒙版：-webkit-mask:url();
+	
+	background-size:contain/cover;	高度撑开，宽度自适应/宽度撑开，高度自适应
+	
+【其他一些不经常使用的滤镜】	
+-webkit-filter:blur(px);
+1.图像高斯模糊
+-webkit-filter:blur(4px);
+范围随便写就行，记得加px
+2. 图片进行棕褐色处理
+-webkit-filter:sepia(1);
+处理范围是0-1或者0%-100%
+3. 图片灰色处理
+-webkit-filter:grayscale(1);
+范围是 0-1或者0%-100%
+4. 图片反色处理
+-webkit-filter:invert(1);
+范围是 0-1或者0%-100%
+5. 图像饱和度调节
+-webkit-filter:saturate(30);
+范围是 取值范围>=0数字或百分比 1为无效果，0为灰度图
+6. 图像对比度调节
+-webkit-filter:contrast(90);
+取值范围>=0数字或百分比 1为无效果
+7. 图像亮度调节
+-webkit-filter:brightness(3);
+取值范围>=0数字或百分比 1为无效果
+8. 图像色相旋转
+-webkit-filter:hue-rotate(300deg);
+取值范围0deg-365deg, 0默认值，为无效果
+9. 阴影滤镜
+-webkit-filter:drop-shadow(5px 5px 3px #333);
+	
+	
+
+
+     
+          
+
+      
+
+
