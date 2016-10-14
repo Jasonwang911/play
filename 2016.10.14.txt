@@ -1,0 +1,72 @@
+﻿继续接着昨天的整理
+
+【倒影】:用的不是很多
+
+-webkit-box-reflect:below 20px  -webkit-linear-gradient(rgba(0,0,0,0,),rgba(0,0,0,1));          
+                         方向     和倒影之间的距离
+          
+          倒影方向above（向上）  below（向下）     left（向左）     right（向右）
+
+【缩放】
+
+textarea   锁定不让扩大缩小        resize：none
+div     想通过拖拽来空值大小        resize：both；     overflow：auto；
+
+【文字排列】
+
+direction:ltr;     unicode-bidi:bidi-override;     ——》两个必须配合使用
+方向                                             
+     ltr ：left to right          rtl：right to left（默认字体在屏幕右面）
+
+【文字缩略】：项目中常用（新闻客户端）
+
+ text-overfow:ellipsis;     ---->参数还可以是clip
+ wite-space:nowarp;
+ overflow:hidden;
+
+
+webkit   moz  中有只保存两行的私有功能，如果想处理文字只保存两行，超出变点的话需要后台处理数据
+
+
+css中实用而且给力的样式
+
+【transform】 变换
+
+transform:rotate(45deg);    ---->deg角度的正好表示顺时针旋转        rotate  角度
+transform:translate(200px,0);       移动的x轴和y轴的距离   注意translate  移动的距离，而不是坐标
+
+rotate:
+          translateX
+          translateY
+          rotateX               变矮了
+          rotateY               变瘦了
+          rotateZ               默认情况
+      
+transform:scale(2,2);               扩大/缩小的倍数          两个值表示x轴和y轴     如果写一个值表示x轴y轴都改变
+当第一个值是-1的时候，水平翻转，当第二个值是-1的时候垂直翻转
+
+transform:skew(2,2);               扭曲（倾斜--斜切）      参数可以使用角度deg  
+
+transform  不进行dom操作，并不会改变盒子模型，不会引发重排，只是视觉上发生变化，所以性能更高 
+
+transform：translate3d;     ---->性能更高，触发了硬件加速       使用显卡加速，优点流畅，缺点：费电          
+
+transform的另一种写法（只改一个值的时候可以使用）
+transform:translateX(200px);        
+transform:scalX(2);
+
+注意：使用transform的时候，如果使用多个值，先运动的放在后面；要想使用transform必须是块（block）或者行内块（inline-block）;
+
+设置旋转的中心位置
+transform-origin：center center；    默认是center  center，
+
+【3d】
+     前端的3d都是从视觉上感觉是3d
+
+	transform:  perspective(800px)  rotateX(45deg);
+          perspective   景深    合适景深的值是800-2000
+
+     注意有单独使用有bug ，需要先重置再设置
+     
+     rotateX/Y/Z     
+
