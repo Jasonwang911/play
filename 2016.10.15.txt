@@ -1,0 +1,317 @@
+﻿今天总结了下排序简单的算法
+
+【自定义排序】
+先寻找一个最小的数，然后依次那这个数和数组中其他数字比较，如果发现比这个数字小的数就把这两个数调换位置，然后再继续寻找下一个最小的数字进行下一轮比较
+
+var arr = [31,6,19,8,2,3];
+    function findMin(start,arr){
+        var iMin = arr[start];
+        var iMinIndex = start;
+        for(var i = start+1;i<arr.length;i++){
+            if(arr[i]<iMin){
+                iMin = arr[i];
+                iMinIndex = i;
+            }
+        }
+        return iMinIndex;
+    }
+    function sort1(arr){
+
+        for(var i = 0;i<arr.length;i++){
+            var iMinIndex = findMin(i,arr);
+            var car;
+            car = arr[i];
+            arr[i] = arr[iMinIndex];
+            arr[iMinIndex] = car;
+        }
+        return arr;
+    }
+    document.write(sort1(arr));
+
+【线性查找】：一个一个去查找
+
+  //不重复 有序
+    var arr = [0];
+    for(var i = 1;i<100000;i++){
+        arr[i] = arr[i-1]+Math.floor(Math.random()*4+1);
+    }
+
+    function find1(n,arr){
+        for(var i = 0;i<arr.length;i++){
+            if(arr[i]==n){
+                return true;
+            }
+        }
+        return false;
+    }
+    //测试性能
+    var t1 = new Date().getTime();
+    for(var i = 0;i<10000;i++){
+        var n = Math.random()*10000;
+        find2(n,0,arr.length-1)
+    }
+    alert(new Date().getTime()-t1);
+
+【二分查找】：不停的分成两个部分，分部分查找                    
+是一种万能方法，不一定是最好的，但是个保底的方法。（分治法）
+
+***中间值          相加除以二，统一偏左，向下取整        
+
+  //不重复 有序
+    var arr = [12,17,23,34,45,76,89];
+    function find2(n,s,e){
+        //边界处理
+        if(s>e){
+            return false;
+        }else if(s==e){
+            if(arr[s]==n){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        var c = Math.floor((s+e)/2);
+        if(arr[c]==n){
+            return true;
+        }else{
+            if(n<arr[c]){
+                return find2(n,s,c);
+            }else{
+                return find2(n,c+1,e);
+            }
+
+        }
+    }
+
+    alert(find2(34,0,arr.length-1));//true  false
+
+【边界处理】-----递归，一层一层往下找
+
+//要求数组不重复有顺序\
+    var arr=[12,23,34,45,56,67,78]
+    function  find2(n,s,e){
+         if(s>e){
+              return fasle;
+         }else  if(s==e){
+              if(arr[s]==e){
+                   return true;
+              }else{
+                   return false;
+              }
+         }
+         var c=Math.floor((s+e)/2);
+         if(arr[c]==n){
+              return true;
+         }else{
+              if(n<arr[c]){
+                   return  find2(n,s,c);
+              }else{
+                   return  find2(n,c+1,e);
+              }
+         }
+    }
+
+    alert(find2(12,arr.length+1,78));
+
+应用
+
+【查找最小值】
+
+var arr = [12,54,32,9,5,3,1,101,-100,-1000];
+    function findMin(s,e){
+        if(s>e){
+            return [];
+        }else if(s==e){
+            return arr[s];
+        }else if(s == e-1){
+            if(arr[s]<arr[e]){
+                return arr[s];
+            }else{
+                return arr[e];
+            }
+        }
+        var c = Math.floor((s+e)/2);
+        var l = findMin(s,c);
+        var r = findMin(c+1,e);
+        if(l<r){
+            return l;
+        }else{
+            return r;
+        }
+    }
+    alert(findMin(0,arr.length-1));
+
+【数组去重】
+
+  var arr = [1,2,3,4,5,4,3,4,5,2,1,4,2,1,5,7];
+    function findInArr(n,arr){
+        for(var i = 0;i<arr.length;i++){
+            if(arr[i]==n){
+                return true;
+            }
+        }
+        return false;
+    }
+    function removeCopy(s,e){
+        if(s>e){
+            return [];
+        }else if(s==e){
+            return [arr[s]];
+        }else if(s == e-1){
+            if(arr[s]==arr[e]){
+                return [arr[s]];
+            }else{
+                return [arr[s],arr[e]]
+            }
+        }
+        var c = Math.floor((s+e)/2);
+        var l = removeCopy(s,c);
+        var r = removeCopy(c+1,e);
+
+        for(var i = 0;i<r.length;i++){
+            if(!findInArr(r[i],l)){
+                l.push(r[i]);
+            }
+        }
+        return l;
+    }
+    document.write(removeCopy(0,arr.length-1));
+
+【数组排序】
+
+var arr = [34,32,1,76,55,-100,99,101];
+    function mySort(s,e){
+        //边界处理
+        if(s>e){
+            return [];
+        }else if(s==e){
+            return [arr[s]]
+        }else if(s == e-1){
+            if(arr[s]<arr[e]){
+                return [arr[s],arr[e]];
+            }else{
+                return [arr[e],arr[s]];
+            }
+
+        }
+        //1.切中间值
+        var c = Math.floor((s+e)/2);
+        //2.分半处理
+        var l = mySort(s,c);
+        var r = mySort(c+1,e);
+        var res = [];
+        while(l.length>0||r.length>0){
+            if(l[0]<r[0]){
+                res.push(l.shift());
+            }else{
+                res.push(r.shift());
+            }
+        }
+        if(l.length ==0){
+            res = res.concat(r);
+        }else if(r.length ==0){
+            res = res.concat(l);
+        }
+        return res;
+    }
+    //调用
+    document.write(mySort(0,arr.length-1));
+
+
+冒泡排序     BubbleSort          
+
+     循环，每次拿出两个值，两两比较，如果下一个值比目前的小，那么交换位置
+
+     外层循环是循环取数，内层循环是两两交换比较
+
+var arr=[-122,-2,5,6,73,34,5,2];
+
+    function BubbleSort(arr){
+        for(var i=0;i<arr.length;i++){
+            for(var j=0;j<arr.length-1;j++){
+                if(arr[j]>arr[j+1]){
+                    var tmp=arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=tmp
+                }
+            }
+        }
+        return arr;
+    }
+
+    document.write(BubbleSort(arr));
+
+
+【快速排序】     -------quickSort
+
+     取数组中间的数，比中间数小的房中间数左边，比中间数大的放右边，再把两遍链接起来
+
+function quickSort(arr,s,e){
+        //边界处理    参与流程
+        if(arr.length==0){
+            return [];
+        }
+
+        var c=Math.floor((s+e)/2);
+        var arrC=arr.splice(c,1);
+        var l=[];
+        var r=[];
+
+        for(var i=0; i<arr.length;i++){
+            if(arr[i]<arrC){
+                l.push(arr[i]);
+            }else{
+                r.push(arr[i]);   
+            }
+        }
+        return  quickSort(l).concat(arrC,quickSort(r));
+    }
+
+    var arr=[5,5,12,56,1,67,-1,-23-1];
+
+    document.write(quickSort(arr,0,arr.length-1));
+
+【散列】     hash     哈希    数组  ------js常用用的结构
+添加
+
+   var arr=[];
+     arr.length=0;
+     var cont=0;
+     
+function hash_add(n){
+
+     var pos=n%arr.length;
+     //当空间不足的时候
+   
+
+     if(arr[pos]){
+          while(arr[pos]) {
+               cont++;
+               if(arr[pos]==n){
+                    return;
+               }else{
+                    pos++;
+                    if(pos==arr.length){
+                         pos=0;
+                    }
+               }
+           }
+          arr[pos]=n;      
+     }else{
+          arr[pos]=n;
+     }
+     //空间不足的时候的扩建
+     if(cont==arr.length){
+      //d等呗扩建
+         var oldArr=arr;
+         arr.length=oldArr.length*2;
+         arr=[];
+          for(var i=0;i<oldArr.length;i++){
+               arr.push(oldArr[i]);
+               count=0;
+          }
+     }   
+}
+
+hash_add();
