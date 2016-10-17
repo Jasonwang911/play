@@ -1,0 +1,102 @@
+﻿今天继续总结css3的一些css3新样式，先列一个简单的提纲，重要的还是圆角、阴影、渐变、文字缩略，最最重要的是过度transition，变换transform和animation
+圆角
+阴影
+渐变	圆形渐变  线性渐变 跳变 重复渐变
+蒙版
+倒影
+滤镜
+多背景
+文字方向
+文字缩略		
+
+过渡transition	
+变换transform
+动画animation:
+	keyframes
+
+一个一个来：
+1》圆角：
+	border-radius:px %;
+
+	border-radius: 一个值; 	四个角
+	border-radius: 左上右下 右上左下;
+	border-radius: 左上 右上左下 右下;
+	border-radius: 左上 右上 右下 左下;
+2》阴影：
+	box-shadow:x y blur color;
+
+	box-shadow:[inset] x y blur [范围] color;
+	ext-shadow:x y blur color;
+
+	阴影可以叠加
+	box-shadow:x y b c,x y b c,x y b c......;
+
+	文字阴影
+	text-shadow:x y blur color;
+3》渐变：
+	线性渐变：-webkit-linear-gradient(渐变角度/渐变开始的位置，red  颜色开始渐变的位置，green 颜色开始渐变的位置);
+		
+
+	径向渐变：-webkit-radial-gradient(圆心位置，形状颜色,red 渐变的开始位置,blue 渐变的开始位置);
+
+	重复渐变-webkit-repeating-linear/gradial-gradient(渐变角度/渐变开始的位置，写一个循环的渐变);
+
+	跳变（四个颜色的跳变）：
+	background:-webkit-linear-gradient(red 25%,green 25%,green 50%,yellow 50%,yellow 75%,deepskyblue 75%);
+4》蒙版：
+     -webkit-mask:url('图片路径');
+     -webkit-mask:linear-garadient();
+
+     -webkit-mask-position:x y;
+
+     background-size:contain;-->高度顶满，宽度自适应          cover---》宽度撑满，高度自适应
+5》倒影：
+	-webkit-box-reflect:below 20px  -webkit-linear-gradient(rgba(0,0,0,0,),rgba(0,0,0,1));          
+                            方向  和倒影之间的距离
+          
+          倒影方向above（向上）  below（向下）     left（向左）     right（向右）
+6》滤镜（只列举了两个，高斯模糊还算重要）：
+	高斯模糊
+	-webkit-filter:blur(20px);     括号内是模糊程度
+
+	褐色处理
+	-webkit-filter:sepia();
+7》多背景
+	backgoround:背景1，背景2，背景3..;（不兼容）
+8》文字方向
+	direction:ltr;     
+	unicode-bidi:bidi-override;     ——》两个必须配合使用
+        
+	方向  ltr ：left to right          rtl：right to left（默认字体在屏幕右面）
+9》文字缩略
+
+ 	text-overfow:ellipsis;     ---->参数还可以是clip
+	wite-space:nowarp;
+ 	overflow:hidden;
+
+一、过渡transition
+	transition:4s all ease/linear;
+		时间   过渡的属性    运动方式
+二：变换transform
+	主要常用的有四个属性  rotate  translate	scale	skew
+	
+	1》角度rotate(x,y)   正号表示顺时针
+		rotateX   会变矮
+		rotateY   会变窄
+		rotateZ   没变化	———》使用z轴时给父级添加transform-style:preserve-3d;	
+
+		rotateX和rotateY使用时候变矮变窄是因为没有视觉的景深，所以需要添加景深
+
+		景深：transform:perspective(800-2000px);
+	2》位移translate(x,y)	-->移动的是距离并不是坐标
+		translateX	translateY	
+		北面不可见：backface-visibility:hidden;
+	3》缩放scale(x,y)
+		x，y表示x轴，y轴方向，只写一个的话默认x，y都缩放
+		如果值是-1的话表示在此轴方向反向
+	4》扭曲skew(x,y)
+		
+		
+		
+
+
