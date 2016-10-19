@@ -1,0 +1,58 @@
+﻿继续总结H5的新东西
+
+1》序列化与反序列化
+	序列化：其实就是一个json-》string的过程
+		JSON.stringify(json);
+	反序列化：string-》json的过程（注意，此处需要标准的json模式）
+		JSON.parse(string);
+	
+	简单的比较一下eval和parse的区别
+			安全性		数据		兼容性
+	eval		不安全		任何数据		全兼容
+	parse		安全		标准json		兼容IE8+
+
+2》localStorage
+	
+	定义：localStorage.name='值'；或者   localStorage.setItem('name','值');
+	相同的方法还有  getItem 	removeItem  clear
+	
+	cookie和localStorage的对比
+			  大小   	   有效期	  环境配置	 	兼容性
+	cookie		  4k		session（会话结束）   走网络		全兼容
+	localStorage	  5M		不过期		    不走网络	        不兼容IE6
+
+	事件：onstorage		包含事件对象ev.key（存储的名字）	loacalStorage[ev.key]（名字对应的值）
+
+	应用：购物车页面和支付页面的实时关联
+	思路：购物车页面定义一个localStorage.name='';
+	     支付页面使用window.onstorage事件获取ev.key和对应localStorage[ev.key]值来实时计算总价格（当然可以传输json形式的数据添加数量和运费等详细信息）
+
+3》H5拖拽上传文件
+
+	事件：ondragenter	ondragover	ondragleave	ondrop(当拖拽松手时)
+
+	上传文件可以配合setTimeout使用 在ondragover中因为不停的触动事件，事件中不停的清除上一个定时器来控制上传区域的显示和隐藏，注意事件冒泡的处理
+
+	读取上传文件
+	事件  ondrop   中的事件对象  ev.dataTransfer.files[0];
+				事件对象中包含  lastModifiedData  最后修改的日期
+						name	
+						size			
+						type等等
+	H5中读取文件的新功能   fileReader（object）
+	定义：var reader=new FileReader();
+	
+	读取一个文本	reader.readAsText('要读取的数据','编码');
+	读取一个图片	reader.readAsDataURL('要读取的数据','base64');
+	
+	事件：  onload		当文件读取成功
+		onerror		当文件读取失败
+		onloadstart	当文件开始读取
+		onloadend	当文件读取结束
+		onabort		当文件读取中断
+		onprogress	当文件加载进行	包含事件对象  ev.loaded已加载	ev.total总加载量  ———》制作加载进度条
+
+	
+
+		
+		
