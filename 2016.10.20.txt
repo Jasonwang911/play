@@ -1,0 +1,77 @@
+﻿HTML5的新东西总结四：
+
+1》video和audio
+	声明方法（可以制作背景音乐）
+		var oV/oA=new Video()/Audio();
+		oV/oA.src='';
+		oV/oA.play();
+
+	双标签声明：
+		<video src=""></video>
+		<audio src=""></audio>
+
+	属性：
+		a、src和poster   poster：指定一张图片，当视频数据无效时显示（加载、地址错误等）；
+		b、preload	是否预加载，默认为auto，还有none和metadata
+		c、loop		是否自动循环，布尔值属性
+		d、controls	显示播放控件
+		e、width和height
+		f、source标签	包含type（媒体类型的src） 默认为all
+		
+	功能：
+		a、暂停 pause   播放 play
+		b、音量控制     volume+=0.1	volume-=0.1	（默认的值是0-1）
+		c、静音		muted  返回布尔值，true表示静音  false表示不静音
+		d、快进和快退	currentTime++	快进     currentTime--  快退	
+		e、全屏		Video.webkitRequestFullscreen();
+		f、滚动条	事件Video.ontimeupdate	  事件对象中含有 Video.currentTime  已经播放的时间   Video.duration  总时间 
+		g、播放完毕      事件onended
+		h、当双击的时候（事件）	ondblclick
+
+2》动画
+	transition	过渡   用于简单的过渡动画
+	animation	
+		定义：@keyframes name{
+				from/0%{ }
+				to/100%{ }
+			}  
+		调用：animation:1s name linear/ease infinite forwards;
+
+		分写：
+			animation-name:name;	名称
+			animation-duration:4s;	时间
+			animation-timing-function:linear; 运动状态
+			animation-fill-mode:forwards; 最后状态
+			animation-iteration-count:infinite; 动画次数
+
+	分享一个css3动画特效库 animation.css  网址： https://daneden.github.io/animate.css/
+
+3》地理位置	
+	对象：navigator-geolocation
+
+		navigator-geolocation.getCurrentPosition(function(ev){alert('成功时包含ev事件对象，可以打印出来');ev.coords},function(ev){ev.code})
+
+	                                 ev.coords：坐标
+                                            latitude——纬度
+                                            longitude——经度
+                                            accuracy——精确度，单位米
+                                            altitude——高度，单位米 海拔
+                                            altitudeAccuracy——高度的精确地，单位米
+                                            heading—运动的方向，相对于正北方向的角度  朝向
+                                            speed——运动的速度（假设你在地平线上运动），单位米/秒   
+                                            accuracy >70 可用   精确度
+
+                    			 ev.code的返回值：
+                                             1   用户拒绝
+                                             2   获取超时  网络问题
+                                             3   获取失败
+
+		实时获取地理位置：navigator.geolocation.watchPosition();
+				和定时器相同可以清除；
+				清除方法：navigator.geolocation.clearWatch();
+
+
+
+
+	
+			
