@@ -1,0 +1,376 @@
+﻿【行为样式三者分离】
+
+不加行内css样式，不加行内js效果
+
+
+【标签】
+1》单标签
+<!doctype html>	文档头，告诉浏览器这是一个网页
+br	换行
+img	插入图片，src属性 默认有图片上方3像素，间距
+
+
+
+
+
+2》双标签
+body	主体，默认margin
+span
+div	
+h1-h6   标题标签，默认字体加粗，间距，字体大小
+p	段落标签，默认有间距
+a	超链接，可添加width、height属性，如果给定的高度或者宽度比例不合适，图片会扭曲或者拉伸，如果只给定一个值，浏览器会自动计算等比；href属性可添加链接、路径、锚点或javascript：；默认样式下划线，字体颜色
+	traget属性	traget='_blank'; 从新页面中打开
+			traget='_self';  从本页中打开
+b	默认字体加粗 有强调的含义
+strong	默认字体加粗
+i	默认字体倾斜	
+em	默认字体倾斜 有强调的含义
+ul/ol/li 列表，默认文本样式小圆点，间距
+dl/dt/dd 描述列表，默认dt、dd有间距
+link	外联样式表，包含rel属性（属性值为stylesheet），href属性
+
+<iframe src="广告的网址接口" width="300" height="250" scrolling="no" marginwidth="0" frameborder="0"></iframe>
+scrolling="0"	去掉广告条
+marginheight="0"	内容边距上边距为0
+marginwidth="0"		内容边距左边距为0
+frameborder="0"		去掉边框
+
+【表单标签】
+input	text文本输入框	value='默认文字，输入时需要删除'	placeholder='默认文字，输入时不需要删除'
+	button按钮	value='按钮的名称'
+	password密码框
+	radio单选框  checked默认选中  实现单选功能需要选项中的name的值一样
+	submit	提交按钮
+	rersect 重置按钮
+	<secelt>
+		<option></option> 下拉菜单   selected默认选中的
+	</select>
+	checkbox	复选框	checked默认选中
+	<label></label> 标记标签  使用id和for属性来相互关联
+	<texteara></texteara>  文本域  默认样式
+
+	<form action="提交地址"></form> 表单元素提交数据的外框
+
+清除表单元素的默认样式
+	border：none；
+	padding:0;
+	outline:none; 清除焦点框
+	background:none; 清除背景颜色
+	resize:none;  清除文本域的默认拖拽
+	
+【表格元素】
+<table>
+  <tr>
+     <th></th>
+     <th></th>
+  </tr>
+  <tr>
+     <td></td>
+     <td></td>
+  </tr>
+</table>
+
+表格垂直居中的方式：
+	vertical-align:top;顶部
+	vertical-align:middle;中部对齐
+	vertical-align:bottom;底部对齐
+
+表格边框的合并：
+	table{border-collapse:collapse;};
+
+表格的属性
+	cellpadding="0";
+	cellspacing="0";
+	rowspan="2" 行合并
+	colspan="2" 列合并
+
+
+【属性】
+
+属性=‘属性值’
+
+href="链接地址"
+src
+type
+name
+value
+title	提示文本     鼠标移上去的时候显示的文字
+alt='替换文本'   图片加载失败的时候显示的文字
+traget="_blank"  从新窗口打开连接
+traget="_self"	 从本窗口打开连接
+
+
+
+【css样式】
+width
+	min-width:最小宽度（一般都等于网页的内容宽度）
+height
+border：2px solid/dashed/dotted red;	点线（dotted）在ie火狐中显示为圆点
+border-top/right/bottom/left;
+	border-width:边框粗细
+	border-style:边框线性
+	border-color:边框颜色
+border-radius:50%; 圆角，百分数相当于对应长或者宽的比例   四个值得方向是左上、右上、右下、左下
+text-align:left;（默认） 
+line-height：对于单行文本，行高与高度相等时，文本是垂直居中的
+font
+	font-style:italic/normal;字体倾斜
+	font-weidth:bold/normal;
+	font-size 字体的大小
+	font-family:'Mircosoft Yahei';
+	简写：font：italic bold 12px/20px 'Mircosoft Yahei';
+	字体简写至少存在字体大小和字体系列
+background
+	background-image：url('图片的地址')；
+	background-repeat:no-repeat/repeat-x/repeat-y;
+	background-position:如果只写一个值，第二个默认为center；如果是数值表示，第一个是x轴
+	简写：background:url() no-repeat position color;不区分先后顺序
+	background-position:50% 50%;图片在中间位置
+padding：内边距（内容与边框之间的距离）
+	padding:10px;	四个方向的内边距都未10px
+	padding:10px 20px;	上下内边距为10px，左右内边距为20px
+	padding:10px 10px 30px;   上边距为10排序，左右边距各为20px，下边距为30px
+	padding:10px 20px 30px 40px;   上、右、下、左的内边距分别为10px/20px/30px/40px
+	分写方式：
+		padding-top:
+		padding-right:
+		padding-bottom:
+		padding-left:
+margin:外边距
+	外边距的简写和分写方式和内边距的完全相同
+	margin的问题：
+		margin的拖拽：子集的margin-top给了父级
+			解决：
+				给父级加一个边框
+				给父级加overflow:hidden;
+				用父级的padding-bottom代替子集的margin-top
+		margin的合并：两个相邻元素如果都有margin的话只会执行最大的一个
+			解决：只给一个元素添加margin，margin的值为两个元素margin值的和
+	margin负值：如果盒子不设置宽，margin负值可以使盒子变大
+	
+text-decoration:none/underline/overline/line-through;	下划线
+text-indent:2em;	首行缩进
+opacity：透明度（值为0到1）；自己会继承父级的opcity
+cursor:pointer; 手型
+
+overflow:hidden;溢出隐藏
+overflow:scroll;一直显示滚动条
+overflow:auto;自动显示滚动条
+
+
+white-space:nowrap;不换行
+overflow:hidden;溢出隐藏
+text-overflow:ellipsis;省略号
+
+	
+【css选择器】
+1》群组选择器	h1,h2,h3,h4
+2》嵌套选择器	p span a		也叫包含选择器
+3》筛选选择器	div.span.img	
+4》直接自己选择器    ul>li
+5》伪类选择	a:link{}    访问之前
+		a:visited{} 访问之后
+		a:hover{}   鼠标移上去
+		a:active{}  鼠标按下去
+6》ID选择器     #box
+7》类选择器	.box
+8》标签选择器    box
+9》通配符选择器  *
+	
+   
+【优先级】：选择范围越小，优先级越高
+important>行内样式>#id>类选择器>标签选择器>通配符*
+
+自己有的样式就不会继承父级的样式（比如a不继承父级的字体颜色）；文本样式可以继承
+
+
+【清除默认样式】
+body,h1,h2,h3,h4,h5,h6,p,ol,ul,dl,dt,dd,input,textarea{
+	padding:0;
+	margin:0;
+}
+li{
+	list-style:none;
+}
+a{
+	text-decoration:none;
+	color:#666;
+}
+img{
+	vertical-align:top;
+	border:none;
+}
+input,textarea{
+	border:none;
+	outline:none;
+	background:none;
+}
+textarea{
+	resize:none;
+}
+body{
+	font-size:12px;
+	color:#666;
+}
+.w{
+	width:960px;
+	margin:0 auto;
+}
+.clearfix:after{
+	content:'';
+	display:block;
+	clear:both;
+}
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+
+
+
+【盒模型】
+盒子模型：一个盒子模型占据的实际大小
+
+盒子模型的实际大小是  width/height+padding+border
+盒子模型不包括margin
+
+
+【浮动】
+float:right;	左浮动
+float:right;	右浮动
+
+浮动的特性：
+	浮动都有方向
+	浮动使行内变成块
+	浮动后，宽度窄到内容的宽度（没有设置宽度的情况下）
+	浮动元素是半脱离文本流
+	父级宽度不够，子集掉下来
+
+浮动的要素：
+	一个元素浮动，它的同级尽量都浮动
+	浮动元素尽量都给宽高
+	有了浮动就要清除浮动
+
+
+清除浮动的三种方法：
+	给浮动元素的父级加overfloat:hidden;
+	在浮动元素同级加一个div；并且设置css样式clear：both；（也可以浮动元素向哪里浮动，就清除那个方向）
+	给浮动元素的父级添加样式content:'';
+			       display:block;
+			       clear:both;
+					
+【定位】
+position:relative/avsolute/fixed;	相对定位、决定定位、固定定位
+	position:relative;
+	相对定位的特性：
+		参照物是自己
+		不脱离文档流（和普通元素是一样的）
+		不能让行内变成块
+	相对定位的用途：
+		给绝对定位做父级
+		提高层级
+	position:absolute;
+	绝对定位的特性：
+		参照物是有定位的父级，如果没有，参照物是body
+		完全脱离文档流
+		绝对定位使行内变成快
+		宽度靠内动撑大（在没设置宽度的情况下）
+		
+		让一个盒模型垂直水平居中的方法
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin-top:负的高度的一半；
+		margin-left:负的宽度的一半；
+	position:fixed;
+	固定定位的特性：
+		参照物是可视区
+		完全脱离文档流
+		固定定位使行内变成块
+		内容靠宽度撑大（在不设置宽度的情况下）
+
+	层级：z-index：自然数
+	      子集的层级永远高于父级（不管如何给父级和自己设置层级）
+	      后面的元素的层级大于前面元素的层级
+	      z-index只对定位元素起作用
+
+
+
+
+【块标签与行内标签】
+
+块标签：h1-h6 div p ol ul li dl dt dd
+特性：
+	宽度默认是父级的宽度
+	块标签可以设置宽高
+	块标签独占一行
+	不受空格影响
+	可以设置四个方向的margin和padding
+	用来布局和分块
+
+行内标签：span a i em b strong 
+特性：
+	宽度靠内容撑大
+	行内标签不能设置宽高
+	行内标签共处一行
+	受空格影响  
+	只能设置水平方向的margin和padding
+	用来小修饰和装饰细节
+
+块标签和行内标签的嵌套规则为：
+	块标签可以嵌套任意，但是p标签不能嵌套块标签
+	行内标签只能嵌套行内标签，但是a可以嵌套任意标签，不过a不能嵌套a标签
+
+
+【居中方式的总结】
+有宽度的盒子和图片水平居中：margin:0 auto;
+文字和插入图片水平居中：text-align:center;
+表格和插入图片水平位置调整：vertical-align:top/middle/bottom
+
+
+【兼容性问题】
+a包img:有边框
+	img{border:none;}
+
+双倍边距：
+	给浮动元素加display:inline;
+
+清浮动:
+	给父级加zoom:1;		zoom:1;可以触发父级的haslayout,然后让盒子正常显示
+
+透明度:opcity:0.2;
+	filter:alpha(opcity:10); 或者 filter:alpha(opcity=20);
+
+png透明图片：
+	用js解决
+	
+单像素：
+	用双数
+
+margin负值：
+	给元素加position:relative;
+
+最小高度：	
+	元素加overflow:hidden;
+
+
+
+【一些基本的小东西】
+em单位：
+	首行缩进两个字符  text-indent:2em;
+	搜索优化：  text-indent:-999em;   用于网站logo和标题
+	div的宽度可以容纳三个字： width：3em；
+
+&gt;	>
+&lt;	<
+&nbsp;	空格
+
+rgb三原色：红绿蓝
+
+   
+文件路径
+	绝对路径：从盘符开始找
+	相对路径：相对于当前编辑的文件的路径   
