@@ -1,0 +1,72 @@
+ js中定时器分为两种：setInterval和setTimeout, 但是在代码的执行中，定时器的优先级最低，系统里其他不在执行的时候，它才开始。例子如下：
+ 
+ <script>
+ window.onload=function(){
+     setInterval(function(){
+         alert(1);    
+     },10);
+     for(var i=0;i<1000000;i++){
+         for(var j=0;j<1000000;j++){
+             var a=10;
+              a*=5;    
+         }
+         
+     }
+     alert(a);
+ };
+ </script>
+ 
+ 定时器里面的执行时间为10毫秒，   for循环里面为100万毫秒。打开页面的时候一直处于刷新状态，而不是先弹出1， 刷新一段时间后，先弹出50；再弹出1；
+
+
+第二个例子：
+
+<script>
+window.onload=function (){
+    var oMin=document.getElementById('min');
+    var oSec=document.getElementById('sec');
+    var oMin2=document.getElementById('min2');
+    var oSec2=document.getElementById('sec2');
+    
+    var start=new Date();
+    var s2=0;
+    
+    setInterval(function (){
+        var now=new Date();
+        
+        var s=parseInt((now.getTime()-start.getTime())/1000);
+        
+        s2+=0.01;
+        
+        oMin.innerHTML=parseInt(s/60);
+        oSec.innerHTML=s%60;
+        
+        oMin2.innerHTML=parseInt(s2/60);
+        oSec2.innerHTML=parseInt(s2%60);
+    }, 10);
+    
+    document.getElementById('div1').innerHTML=new Date();
+};
+</script>
+</head>
+
+<body>
+<div id="div1"></div>
+<span id="min">00</span>:<span id="sec">00</span><br>
+<span id="min2">00</span>:<span id="sec2">00</span>
+</body>
+</html>
+上下两个秒表经过一段时间后纯在了时间差     问题出现在s2+=0.01； 定时器会受系统其它函数的影响，因而影响其性能。导致存在误差-------也就是说以后遇到时间的时候，尽量用系统的时间来处理。比如：
+ 
+ 秒表：
+ 
+ var start=new Date();
+ 
+ setInterval(function(){
+ 
+ var now=new Date();    
+ var s=parseInt((now.getTime()-start.getTime())/1000);
+ 
+ },1000),
+ 
+ 也可以实现秒表效果。
