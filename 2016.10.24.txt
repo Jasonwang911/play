@@ -1,0 +1,188 @@
+﻿今天简单的总结了js的一些东西，梳理下整个体系，每一次的总结都会有不同的收获；
+js总结一
+一、【获取元素】：
+
+	1、通过ID: var oBtn=document.getElementById('btn1');
+			var oDiv=document.getElementById('div1');
+
+	2、通过标签：var aDiv=document.getElementsByTagName('div');
+			操作一组元素就要用循环：
+				for(初始值;循环条件;自增自减条件){}	有长度的用for循环
+				初始值;while(循环条件){代码;自增自减条件;}	没有长度的用while循环；
+				for in循环：对象中使用：json arr arr中一般用上边的for循环性能高;
+
+	3、通过class名: var aDiv=document.getElementsByClassName('div1');	
+			有兼容性的问题：通过封装函数来解决：
+				getByClass(oBox,'div1');
+				function getByClass(obj,sName){
+					var aObj=obj.getElementsByTagName('*');
+					var arr2=[];
+					for(var i=0;i<aObj.length;i++){
+						var str=aObj[i].className;
+						var arr=str.split(' ');
+						if(findInArr(sName,arr)){
+							arr2.push(aObj[i]);
+						};
+					}
+					return arr2;
+				}
+	注：通过Id是获取到一个元素，其他两个获取的都是一组元素，
+		id只能在document下获取，其他两个方法可以在父级下获取；
+		id和tagName全兼容，通过类名获取有兼容性问题
+		获取出来的一组与元素是类数组 可意识使用长度aDiv.length 和 下标aDiv[0] 不能使用数组的其他方法； 
+
+二、【事件】：
+	
+	系统事件：onload\DOMContentLoaded\onreadystatechange\onscroll\onresize
+	鼠标事件：onclick\onmouseover\onmouseout\onmousedown\onmouseup\onmousemove\onmousewheel\DOMMouseScroll\			 oncontextmenu\
+	键盘事件：onkeydown\onkeyup\
+			  oninput\onpropertychange\
+
+	*****事件对象：存储事件发生的详细信息；声明 var oEvent=ev||event;	
+			
+			事件委托：给父级加事件,判断事件源，执行某项代码；可以给未来的元素加事件；
+			
+			事件绑定：obj.addEventListener('不带on的事件名',fn,false);兼容高级浏览器
+					  		DOM事件必须绑定；且DOM事件只能在高级浏览器中兼容；
+					  obj.attachEvent('带on的事件名',fn);兼容IE浏览器；
+			事件冒泡：从下往上一级一级传递的事件流，一般不阻止冒泡，有问题才阻止；
+					  oEvent.cancelBubble=true;
+			事件下沉：与事件冒泡相反的事件流，从上往下一级一级传递；
+			
+			常见的对象信息  oEvent.target||oEvent.srcElement;
+							oEvent.clientX;/oEvent.clientY;
+				   			oEvent.keyCode/oEvent.shiftKey/oEvent.altKey/oEvent.ctrlKey;
+				  			oEvent.wheelDelta/oEvent.detail		
+
+三、【函数】：
+	
+	1、命名函数：function show(){} 出现 show();的时候执行;
+	2、匿名函数：functionz(){}; 加括号时执行，如封闭空间;
+			封闭空间：(function(index){})(i); 1)解决变量冲突;2)解决i的问题;3)不用单独起名字;
+	3、事件函数：obj.onclick=function(){}; 事件触发时执行;
+
+	注：函数的返回值：return 可写可不写，需要时写，见return直接跳出函数后面的代码不执行了；函数如果没有写返				 回值；那返回的就是undefined;
+		函数的定义存在预解析：在if 和 for 循环中不能直接定义函数;
+
+四、【流程控制】：
+
+	1、if(){}else if(){}else{}; 只有第一个if是必须的 后边的需要是用;
+	2、switch(条件){
+			case 条件一:
+				代码;
+				break;
+			case 条件二:
+				代码;
+				break;
+			default:
+				代码;
+				break;
+
+		};
+
+五、【循环】：
+
+	1、for(初始值;循环条件;自增自减条件){}	有长度的用for循环; for循环中直接套for循环时注意变量不能一样
+	2、初始值;while(循环条件){代码;自增自减条件;}	没有长度的用while循环;
+	3、for in循环：对象中使用：json arr arr中一般用上边的for循环性能高;
+
+	注：循环中如果有事件 事件中的i有问题，用this或封闭空间来解决(i只要赋值时间与调用时间存在时间差就有问题)
+		break/continue:大多数都用在循环中，break 是直接跳出循环，continue 是跳过当次循环；
+		应用：选项卡 简易日历 九九乘法表
+
+五、【操作属性和样式】：
+
+	./[] 点能操作的中括号都能操作，点后不能跟变量，中括号中可以加变量；操作的都是行间样式；
+	
+	getAttribute('属性名')/setAttribute('属性名','属性值');
+
+	应用：懒加载
+
+六、【变量】：
+	1、声明变量：var 变量名='变量值'; 存在预解析的问题；定义被放到作用域的最前边；面试常考
+	   严格模式下:变量的定义必须加var 
+	2、非严格模式下：var a=b=c=8; 第一个变量是局部变量 后两个是全局变量;
+	3、变量使用时不加引号;字符串加引号;
+
+七、【数据类型】：
+	1、 string 字符串 使用时加引号；字符串的拼接 '字符串'+变量+'字符串'+变量;
+
+		字符串的方法：
+	   		str.charAt(下标)：查找下标对应的字符串；
+	   		str.indexOf('字符串')：从左往右查找字符串所对应的下标；找不到时返回-1；
+	   		str.lastIndexOf('字符串') 从右往左查找字符串所对应的下标；
+	   		str.split('切割方法')：将字符串以括号中的方式切割成数组；
+	   		str.substring(开始的位置，结束的位置)：截取从开始到结束位置的字符串；
+	   		str.toUpperCase(); 字符串中的字母全部转换成大写；
+	   		str.toLowerCase(); 字符串中的字母全部转换成小写；
+	   
+		字符串转数字：parseInt();转换成整数 数字后边可以跟字符串
+	   				 parseFloat();转换成小数 数字后边可以跟字符串；
+	   				 Number();严格转换 字符串中只用是数字；
+	   				 转换失败返回NaN 																		NaN代表的意思是不是一个字母，但它的数据类型是numberNaN不等于任何东西包括它自己
+	   				 	 判断是不是NaN 用isNaN();
+
+		比较大小：
+	   		1) 两个都是数字时正常比较；
+	   		2) 一个数字一个数字类型的字符串；先隐式类型转换 再按数字大小进行比较
+	   		3) 两个都是数字类型的字符串则从左往右一个一个比较 例如 '2'>'12';
+	   		4) 两个都是完全的字符串，则从左往右一个一个比较 a<z;a<A；
+
+	   	应用：字符串首字母转大写  判断浏览器类型 
+	
+	2、number 数字
+
+		1)数字加数字是算数运算；数字加字符串 则是字符串拼接；+号没有隐式类型转换；
+		2)在运算符中除了+ = === 外其他大多数都存在隐士类型转换
+		3)常用的数学方法
+			Math.random()随机数
+			Math.abs() 绝对值
+			Math.sqrt() 开方
+			Math.pow(n,m) n的m次方
+			Math.ceil() 向上取整
+			Math.floor() 向下取整
+			Math.round() 四舍五入
+			Math.max() 最大值
+			Math.min() 最小值
+		4)运算符：
+			算术运算符：+、-、*、/、%；
+			赋值运算符：=、+=、-=、*=、/=、%=；
+			比较运算符：==、>、>=、<、<=、===、!=、!==
+			逻辑运算符：&&、||、!
+		应用：计算器 随机数获取 瀑布流 
+
+	3、Boolean 布尔值
+
+		true: 除了false都是真的；
+		false：false\0\''\undefined\NaN\null;都是假的
+
+	4、object 对象
+
+		数组：
+			声明：var arr=[]/ var arr=new Arrey(); 数组中可以放任何数据类型；有序、有长度
+			数组项的添加、替换：arr[1]='blablabla';
+			数组的方法：
+				arr.push() 向后添加一项；
+				arr.unshift() 向前添加一项；
+				arr.pop() 从后边删除一项；
+				arr.shift() 从前边删除一项；
+				arr.splice(开始的位置，删除的个数，添加项)；
+				arr.reverse() 翻转；
+				arr.join('拼接方式') 将数组中的每一项拼接成一个字符串；
+				arr.sort(function(n,m){return n-m}); 排序 里面参数和返回值顺序相同时是从小到达，反之是从大到小
+				arr.concat(arr1,arr2) 数组的拼接；
+			
+			注：数组可以用for循环 也可以用for in 循环 一般情况下用for 循环 性能高；
+
+			应用：字符串翻转 排序 数据存储调用
+
+		json：
+			声明：var json={'':'','':'','':''};无序、无长度、取值用json.name;
+			json中添加项 json.name='val'/json['name']='val';
+				  替换项 上述同样的方法：用一样的键名 
+				  删除项 delete json.name/delete json['name'];
+			json的循环只能用for in for(name in json){} name 表示键名；
+			应用：json 数组去重 json[arr[i]]='luanqibazao';
+				  setStyle();
+				  getPos();
+				  数据存储与调用；交互eval('('+json+')');
