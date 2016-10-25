@@ -1,0 +1,280 @@
+﻿原生js选项卡的几种写法，整片文章我会由简及难的描述几种常用的原生选项卡的写法；
+
+Improve little by little every day!
+
+1>基本选项卡：
+	思路：循环中先清除再添加，注意this的指向和自定义属性的应用
+
+html代码：
+<div id="tab">
+    <input class="on" type="button" value="aaa">
+    <input type="button" value="bbb">
+    <input type="button" value="ccc">
+    <div class="active">111</div>
+    <div>222</div>
+    <div>333</div>
+</div>
+
+css代码：
+        #tab .on{
+            background:skyblue;
+        }
+        #tab div{
+            width: 200px;
+            height: 200px;
+            background:#ccc;
+            display:none;
+        }
+        #tab .active{
+            display:block;
+        }
+
+js代码：
+        window.onload=function(){
+            var oTab=document.getElementById('tab');
+            var aBtn=oTab.getElementsByTagName('input');
+            var aDiv=oTab.getElementsByTagName('div');
+
+            for(var i=0;i<aBtn.length;i++){
+                aBtn[i].index=i;
+                aBtn[i].onclick=function(){
+                    for(var i=0;i<aBtn.length;i++){
+                        aBtn[i].className='';
+                        aDiv[i].className='';
+                    }
+                    this.className='on';
+                    aDiv[this.index].className='active';
+                };
+            }
+        };
+
+2>无缝滚动选项卡
+
+	布局思路：ul中图片，在0.jpg-4.jpg前后分别添加一尾一头的图片。当图片（ul）向前运动到4.jpg的时候继续向前运动，当运动到最后一张0.jpg一结束的时候瞬间把ul拉回到第二张图片的位置（0.jpg），然后在继续向前运动；反之，当图片向后运动到第一张图片（4.jpg）的时候，运动一结束，瞬间将图片（ul）拉倒倒数第二张（4.jpg）的位置，这样便形成了无缝滚动；
+
+布局的重点：
+	cont为遮罩层，pre和next组成了一个遮罩覆盖在可视图片之上，当鼠标点击可视图片左半部分的时候，图片向前运动；当鼠标点击可视区右半部分的时候，图片向后运动；
+
+js代码中添加了一个iNow，用来对应当前正常照片的位置，并与下面ol中li圆点相对应；iNow还有一个作用是与ul的移动位置相关联；
+js需要注意的是判断iNow的值来循环图片
+
+html代码：
+    <div id="tab">
+        <ul>
+            <li><img src="img/4.jpg" alt=""></li>
+            <li><img src="img/0.jpg" alt=""></li>
+            <li><img src="img/1.jpg" alt=""></li>
+            <li><img src="img/2.jpg" alt=""></li>
+            <li><img src="img/3.jpg" alt=""></li>
+            <li><img src="img/4.jpg" alt=""></li>
+            <li><img src="img/0.jpg" alt=""></li>
+        </ul>
+        <div id="cont">
+            <div class="pre"><span>向左</span></div>
+            <div class="next"><span>向右</span></div>
+            <ol>
+                <li class="on"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+
+css代码：
+        *{
+            padding: 0;
+            margin: 0;
+            list-style:none;
+        }
+        #tab{
+            width: 300px;
+            height: 172px;
+            position:relative;
+            margin:100px auto;
+            overflow:hidden;
+        }
+        #tab ul{
+            width:2100px;
+            overflow:hidden;
+            position:absolute;
+            top: 0;
+            left: 0px;
+        }
+        #tab ul li{
+            width: 300px;
+            float:left;
+        }
+        #tab ul li img{
+            width: 300px;
+        }
+        #cont{
+            width: 300px;
+            height: 172px;
+            position:absolute;
+            top:0;
+            left: 0;
+        }
+        #cont div{
+            width: 150px;
+            height: 100%;
+            float:left;
+            display:none;
+        }
+        #cont div span{
+            width: 40px;
+            height: 40px;
+            background:rgba(0,0,0,0.2);
+            text-align:center;
+            line-height: 40px;
+            font-size:20px;
+            color:#fff;
+            position:absolute;
+            top:50%;
+            margin-top:-20px;
+        }
+        #cont .pre span{
+            left:0;
+        }
+        #cont .next span{
+            right:0;
+        }
+        #cont ol{
+            width: 100px;
+            position:absolute;
+            left: 100px;
+            bottom:10px;
+        }
+        #cont ol li{
+            width: 10px;
+            height: 10px;
+            background:#ccc;
+            border-radius:50%;
+            margin:5px;
+            float:left;
+        }
+        #cont ol .on{
+            background:red;
+        }
+
+js代码：
+这里我加入了一个自己写的move运动函数；之后我会单独写一篇关于这个运动函数封装的思想的文章；这里请先将这个运动函数文件引入你的js中；
+<script src="move-end.js"></script>
+       window.onload=function(){
+            var oTab=document.getElementById('tab');
+            var oUl=oTab.getElementsByTagName('ul')[0];
+            var aLi=oUl.children;
+            var oCont=document.getElementById('cont');
+            var oBtn=oCont.getElementsByTagName('div');
+            var oBar=oCont.getElementsByTagName('ol')[0];
+            var aC=oBar.children;
+
+            //定位ul的初始位置
+            var iNow=1;
+            oUl.style.left=-aLi[0].offsetWidth*iNow+'px';
+
+            //当鼠标移入遮罩层，按钮显示，移出遮罩层，按钮消失
+            oCont.onmouseover=function(){
+                oBtn[0].style.display='block';
+                oBtn[1].style.display='block';
+            };
+            oCont.onmouseleave=function(){
+                oBtn[0].style.display='none';
+                oBtn[1].style.display='none';
+            };
+            //图片向前运动
+            function next(){
+                iNow--;
+                move(oUl,{left:-aLi[0].offsetWidth*iNow},{"complete":function(){
+                    if(iNow==0){
+                        iNow=aLi.length-2;
+                        oUl.style.left=-aLi[0].offsetWidth*iNow+'px';
+                    }
+                    for(var i=0;i<aC.length;i++){
+                        aC[i].className='';
+                    }
+                    aC[iNow-1].className='on';
+                }});
+            }
+            //向后运动
+            function pre(){
+                iNow++;
+                move(oUl,{left:-aLi[0].offsetWidth*iNow},{'complete':function(){
+                    if(iNow==aLi.length-1){
+                        iNow=1;
+                        oUl.style.left=-aLi[0].offsetWidth*iNow+'px';
+                    }
+                    for(var i=0;i<aC.length;i++){
+                        aC[i].className='';
+                    }
+                    aC[iNow-1].className='on';
+                }});
+            }
+
+            oBtn[0].onclick=function(){
+                pre();
+            };
+            oBtn[1].onclick=function(){
+                next();
+            };
+        };
+
+move函数：
+/* Created by Jason on 2016/9/7.
+ */
+
+function getStyle(obj,sName){
+    return (obj.currentStyle || getComputedStyle(obj,false))[sName];
+}
+function move(obj,json,options){
+    var options=options || {};    
+    var duration=options.duration || 1000;
+    var easing=options.easing || 'linear';
+    var start={};
+    var dis={};
+    
+    for(name in json){
+        start[name]=parseFloat(getStyle(obj,name));
+        dis[name]=json[name]-start[name];
+    }
+    //start {width:50,}  dis {width:150}
+    //console.log(start,dis);
+    var count=Math.floor(duration/30);  
+    var n=0;
+
+    clearInterval(obj.timer);
+    obj.timer=setInterval(function(){
+
+        if(n>count){
+            clearInterval(obj.timer);
+            options.complete && options.complete();
+        }else{
+            for(name in json){
+            switch(easing){
+                case 'linear':
+                    var a=n/count;
+                    var cur=start[name]+dis[name]*a;
+                    break;
+                case 'ease-in':
+                    var a=n/count;
+                    var cur=start[name]+dis[name]*a*a*a;
+                    break;
+                case 'ease-out':
+                    var a=1-n/count;
+                    var cur=start[name]+dis[name]*(1-a*a*a);
+                    break;
+            }
+
+            if(name=='opacity'){
+                obj.style.opacity=cur;
+            }else{
+                obj.style[name]=cur+'px';
+            }
+        }
+        }
+        n++;
+    },30);
+}
+
+今天先写到这里，明天我会继续完善选项卡之自动播放无缝选项卡；
