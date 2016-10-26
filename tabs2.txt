@@ -1,0 +1,155 @@
+﻿今天分享一下自动播放轮播图，自动播放轮播图是在昨天分享的轮播图的基础上添加了定时器，用定时器控制图片的自动切换，函数中首先封装一个方向的自动播放工能的小函数，这个函数中添加定时器，定时器中可以放向右走的代码，也可以放向左走的代码，然后在js加载的时候先执行一次，保证页面加载的时候轮播图是自动播放的，当然在鼠标悬停在遮罩层的时候我们需要清除这个定时器，让自动播放功能关闭，然后在鼠标再次移出遮罩层的时候再次开启定时器，这样就实现了自动播放的功能。
+然后今天的轮播图中我添加了开关的功能，这个开关是为了避免不停的快速点击切换图片时上一个move还没执行完毕然后下一个move再次开启的bug。开关的思路是在函数开始执行之前创造一个false，然后在函数刚开始的时候利用if判断配合布尔值的false实现开的功能，当代买执行过这个关马上让布尔值变为true，从而继续执行代码，在函数全部执行完毕的时候再返回为false；
+
+下面分享代码
+
+html代码：
+    <div id="tab">
+        <ul>
+            <li><img src="img/4.jpg" alt=""></li>
+            <li><img src="img/0.jpg" alt=""></li>
+            <li><img src="img/1.jpg" alt=""></li>
+            <li><img src="img/2.jpg" alt=""></li>
+            <li><img src="img/3.jpg" alt=""></li>
+            <li><img src="img/4.jpg" alt=""></li>
+            <li><img src="img/0.jpg" alt=""></li>
+        </ul>
+        <div id="cont">
+            <div class="pre"><span>向左</span></div>
+            <div class="next"><span>向右</span></div>
+            <ol>
+                <li class="on"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+
+css代码：
+      *{
+            padding: 0;
+            margin: 0;
+            list-style:none;
+        }
+        #tab{
+            width: 300px;
+            height: 172px;
+            position:relative;
+            margin:100px auto;
+            overflow:hidden;
+        }
+        #tab ul{
+            width:2100px;
+            overflow:hidden;
+            position:absolute;
+            top: 0;
+            left: 0px;
+        }
+        #tab ul li{
+            width: 300px;
+            float:left;
+        }
+        #tab ul li img{
+            width: 300px;
+        }
+        #cont{
+            width: 300px;
+            height: 172px;
+            position:absolute;
+            top:0;
+            left: 0;
+        }
+        #cont div{
+            width: 150px;
+            height: 100%;
+            float:left;
+            display:none;
+        }
+        #cont div span{
+            width: 40px;
+            height: 40px;
+            background:rgba(0,0,0,0.2);
+            text-align:center;
+            line-height: 40px;
+            font-size:20px;
+            color:#fff;
+            position:absolute;
+            top:50%;
+            margin-top:-20px;
+        }
+        #cont .pre span{
+            left:0;
+        }
+        #cont .next span{
+            right:0;
+        }
+        #cont ol{
+            width: 100px;
+            position:absolute;
+            left: 100px;
+            bottom:10px;
+        }
+        #cont ol li{
+            width: 10px;
+            height: 10px;
+            background:#ccc;
+            border-radius:50%;
+            margin:5px;
+            float:left;
+        }
+        #cont ol .on{
+            background:red;
+        }
+js代码：
+ window.onload=function(){
+            var oTab=document.getElementById('tab');
+            var oUl=oTab.getElementsByTagName('ul')[0];
+            var aLi=oUl.children;
+            var oCont=document.getElementById('cont');
+            var oBtn=oCont.getElementsByTagName('div');
+            var oBar=oCont.getElementsByTagName('ol')[0];
+            var aC=oBar.children;
+            var timer=null;
+            var bReady=false;
+
+            //定位ul的初始位置
+            var iNow=1;
+            oUl.style.left=-aLi[0].offsetWidth*iNow+'px';
+
+            //当鼠标移入遮罩层，按钮显示，移出遮罩层，按钮消失
+            oCont.onmouseover=function(){
+                clearInterval(timer);
+                oBtn[0].style.display='block';
+                oBtn[1].style.display='block';
+            };
+            //当鼠标移出的时候开启定时器让ul自动向前运动
+            oCont.onmouseleave=function(){
+                setInterval(domove,2000);
+                oBtn[0].style.display='none';
+                oBtn[1].style.display='none';
+            };
+            //把运动封成一个函数，向前向后只是改变iNow的值和判断终点位置
+            function domove(){
+                if(bReady){return}
+                bReady=true;
+                iNow--;
+                move(oUl,{left:-aLi[0].offsetWidth*iNow},{"complete":function(){
+                    if(iNow==0){
+                        iNow=aLi.length-2;
+                        oUl.style.left=-aLi[0].offsetWidth*iNow+'px';
+                    }
+                    for(var i=0;i<aC.length;i++){
+                        aC[i].className='';
+                    }
+                    aC[iNow-1].className='on';
+                    bReady=false;
+                }});
+            }
+同样的，这个自动播放轮播图应用了我自己封装的move函数，这个move函数需要提前引入，move函数我已经分享到上一篇文章中；
+
+明天会继续分享手机端的拖拽选项卡；
+
+
+Improve myself little by little every day!
