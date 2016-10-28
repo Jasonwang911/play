@@ -1,0 +1,37 @@
+﻿canvas是H5中及其重要的一个新标签，它得出现不仅让前端做图形图表功能变得异常强大，还用极强的性能丰富前端渲染页面的能力。
+
+Life is not a problem to be solved, but a reality to be experienced.
+人生不是待解决的难题，而是等着我们去体验的现实。
+
+首先canvas标签
+
+<canvas id="c1" width="" height=""></canvas>		
+
+canvas标签的width，height如果写在style标签中会产生模糊。
+
+canvas的基本js操作
+
+定义一个画笔
+var oC=document.getElementById('c1');
+var gd=oC.getContext('2d');
+
+移动到坐标点：gd.moveTo(100,100);
+连接线：      gd.lineTo();       注意只是做了选区，并没有实际画出线条
+封闭选区：    gd.closePath();
+选择颜色：    gd.strokeStyle='red';
+选择线条宽度：gd.lineWidth=20;  
+画出线条：    gd.stroke();
+选择填充的颜色：gd.fillStyle='green';
+填充：	      gd.fill();
+画一个矩形：  gd.strokeRect(起始坐标x，起始坐标y，宽，高);
+画完一个操作，开始另一个的时候需要添加：
+gd.beginPath();
+结束一个操作的时候如果需要连回到起点，需要添加：
+gd.closePath();
+清除画布：	clearRect(x,y,宽度，高度);
+
+下面分享一个用canvas做的windows线条运动屏幕保护效果，这个效果只利用以上canvas的基础知识，同时例子中用到一个算法的东西，获取一个数组中最大/最小值得方法，这个方法的思路是依次讲数组中的每一个数字和数组的第一个数字做比较，如果数字大于数字的第一个数，那么讲两个数字调换位置，利用这种方法循环数组，获取数组的第一个数字便是数组中最大的数（这个在前面一篇关于算法总结的文章中已经详细说明）；
+
+这个windows运动线条的效果的思路是，动态的再canvas画布上动态的创建了5个点，并赋予这5个点移动速度，并同时规定运动范围（当前屏幕可视窗），开启定时器使这些点不停的运动改变位置，再连接这5个点创建一个不停改变样式的不规则五边形，然后在数组中记录之前小点的位置和连接出来的图形，并赋予这些图形渐变的透明色并展示出来。
+
+下面展示代码，js代码我在写的时候都做了明面
